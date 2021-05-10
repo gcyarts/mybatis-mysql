@@ -14,5 +14,8 @@ public interface IUserDao {
     void saveUser(User user);
 
     void updateUser(User user);
+
     void deleteUser(Integer userid);
+
+    List<User> findUserByCondition(User user);
 }

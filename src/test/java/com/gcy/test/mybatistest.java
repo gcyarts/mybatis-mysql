@@ -20,30 +20,33 @@ public class mybatistest {
     private InputStream in;
     private SqlSession sqlSession;
     private IUserDao userDao;
+
     @Before
-    public void init() throws Exception{
-         in = Resources.getResourceAsStream("SqlMapConfig.xml");
-         SqlSessionFactory  factory = new SqlSessionFactoryBuilder().build(in);
-         sqlSession = factory.openSession();
-         userDao = sqlSession.getMapper(IUserDao.class);
+    public void init() throws Exception {
+        in = Resources.getResourceAsStream("SqlMapConfig.xml");
+        SqlSessionFactory factory = new SqlSessionFactoryBuilder().build(in);
+        sqlSession = factory.openSession();
+        userDao = sqlSession.getMapper(IUserDao.class);
     }
+
     @After
-    public void destroy() throws Exception{
+    public void destroy() throws Exception {
         sqlSession.close();
         in.close();
     }
+
     @Test
     public void testfindAll() {
         List<User> users = userDao.findAll();
-        for(User user : users)
-        {
+        for (User user : users) {
             System.out.println(user);
         }
 
     }
+
     @Test
-    public void testsave(){
-        User user=new User();
+    public void testsave() {
+        User user = new User();
         user.setAddress("鹤岗市");
         user.setBirthday(new Date());
         user.setSex("男");
@@ -51,8 +54,9 @@ public class mybatistest {
         userDao.saveUser(user);
         sqlSession.commit();
     }
+
     @Test
-    public void testupdate(){
+    public void testupdate() {
         String time = "2019-07-23";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date dateTime = null;
@@ -61,7 +65,7 @@ public class mybatistest {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        User user=new User();
+        User user = new User();
         user.setId(2);
         user.setAddress("齐齐哈尔市");
         user.setBirthday(dateTime);
@@ -70,8 +74,22 @@ public class mybatistest {
         userDao.updateUser(user);
         sqlSession.commit();
     }
+
     @Test
-    public void deletetest(){
+    public void deletetest() {
         userDao.deleteUser(7);
     }
+
+    @Test
+    public void findbyconditiontest(){
+        User user=new User();
+        user.setUsername("kss");
+        user.setAddress("鹤岗市");
+        List<User> users=userDao.findUserByCondition(user);
+        for(User u:users)
+        {
+            System.out.println(u);
+        }
+    }
+
 }

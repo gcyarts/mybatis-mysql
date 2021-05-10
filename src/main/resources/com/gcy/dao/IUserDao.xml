@@ -4,15 +4,38 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gcy.dao.IUserDao">
     <select id="findAll" resultType="User">
-        select * from user;
+        select *
+        from user;
     </select>
     <select id="saveUser" parameterType="User">
-        insert into user(username,address,sex,birthday)values(#{username},#{address},#{sex},#{birthday});
+        insert into user(username, address, sex, birthday)
+        values (#{username}, #{address}, #{sex}, #{birthday});
     </select>
     <select id="updateUser" parameterType="User">
-        update user set username=#{username},address=#{address},sex=#{sex},birthday=#{birthday} where id=#{id};
+        update user
+        set username=#{username},
+            address=#{address},
+            sex=#{sex},
+            birthday=#{birthday}
+        where id = #{id};
     </select>
     <select id="deleteUser" parameterType="java.lang.Integer">
-        delete from user where id=#{userid};
+        delete
+        from user
+        where id = #{userid};
+    </select>
+    <select id="findUserByCondition" parameterType="User" resultType="User">
+        select * from user
+        <where>
+            <if test="username!=null">
+                and username=#{username}
+            </if>
+            <if test="sex!=null">
+                and sex= #{usersex}
+            </if>
+            <if test="address!=null">
+                and address=#{address}
+            </if>
+        </where>
     </select>
 </mapper>
